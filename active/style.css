@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+div#systemInfo {
+  width: 90%;
+  margin: 0 auto;
+  border: solid 1px #DCDCDC;
+  margin-bottom: 10px;
+}
+
+/* infoList start */
+div#infoList {
+  float: left;
+  width: 40%;
+}
+
+div#systemInfo div#infoList ul {
+  margin: 30px;
+}
+
+div#systemInfo div#infoList li {
+  margin-bottom: 10px;
+}
+
+div#systemInfo div#infoList li span {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+div#systemInfo div#infoList a {
+  color: #696969;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+div#systemInfo div#infoList a:hover {
+  color: #333333;
+  text-decoration: underline;
+}
+/* infoList end */
+
+/* infoContents start */
+div#systemInfo div#infoContents {
+  float: left;
+  width: 60%;
+}
+
+div#systemInfo div#infoContents article {
+  margin: 30px;
+  font-size: 13px;
+}
+
+div#systemInfo div#infoContents h2 {
+  font-weight: bold;
+} 
+/* infoContents end */

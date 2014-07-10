@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+body{
+  font-size: 1.0em;
+  background-color: #FFFFFF;
+}
+
+div#layoutLogin{
+  background-color: #FFFFFF;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  margin: -150px 0px 0px -200px;
+}
+
+div#layoutLogin h1{
+  text-align: center;
+}
+
+form#loginForm ul li{
+  margin-top: 10px;
+}
+
+form#loginForm ul li span {
+  width: 100px;
+  display: inline-block;
+}
+
+form#loginForm label input {
+  margin-right:0.5em;
+}

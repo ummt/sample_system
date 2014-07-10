@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+/* index start */
+#keyword {
+  width: 450px;
+}
+
+#searchCustomerName {
+  width: 100px;
+}
+
+#searchCustomerNameKana {
+  width: 150px;
+}
+
+#searchCustomerAgeBegin, #searchCustomerAgeEnd {
+  width: 30px;
+  margin-right: 5px; 
+}
+
+#searchCustomerAddressTitle {
+  width: 100px;
+  float: left;
+  margin-right: 0.5em;
+}
+
+#searchCustomerAddressInput {
+  width: 500px;
+  float: left;
+}
+
+#searchCustomerAddressInput span.title {
+  width: 70px;
+  font-weight: normal;
+  text-align: right;
+}
+
+#searchCustomerAddressZipcode {
+  width: 50px;
+}
+
+#searchCustomerAddress01, #searchCustomerAddress02 {
+  width: 350px;
+}
+/* index end */

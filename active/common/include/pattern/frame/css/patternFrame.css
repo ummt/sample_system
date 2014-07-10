@@ -1,0 +1,136 @@
+@charset "UTF-8";
+
+/* pageHeader start */
+header#pageHeader {
+  width: 100%;
+  height: 80px;
+}
+
+header#pageHeader a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+header#pageHeader div#headerLogo {
+  float: left;
+  width: 80px;
+}
+
+header#pageHeader div#headerMain {
+  float: left;
+  width: 880px;
+  background-color: #36508D;
+  color: #FFFFFF;
+}
+
+header#pageHeader div#headerMain div#headerStatus {
+  height: 55px;
+}
+
+div#systemName{
+  float: left;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 15px 0px 0px 30px;
+}
+
+div#loginInfo{
+  float: right;
+  margin: 15px 30px 0px 0px;
+}
+
+header#pageHeader nav#globalNavi {
+  height: 25px;
+}
+
+header#pageHeader nav#globalNavi ul li {
+  color: #FFFFFF;
+  background-color: #333333;
+  width: 80px;
+  height: 25px;
+  list-style: none;
+  float: left;
+}
+
+header#pageHeader nav#globalNavi ul li a {
+  height: 25px;
+  width: 80px;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+header#pageHeader nav#globalNavi ul li a.default:hover {
+  color: #0000FF;
+  background-color: #F0F8FF;
+}
+
+header#pageHeader nav#globalNavi ul li a.default {
+  color: #FFFFFF;
+  background-color: #333333;
+}
+
+header#pageHeader nav#globalNavi ul li a.selected {
+  color: #333333;
+  background-color: #DCDCDC;
+}
+
+header#pageHeader nav#breadcrumbList {
+  float: left;
+  width: 100%;
+  color: #333333;
+  background-color: #FFFFFF;
+}
+
+header#pageHeader nav#breadcrumbList ul {
+  margin-left: 10px;
+}
+
+header#pageHeader nav#breadcrumbList ul li {
+  color: #333333;
+  display: inline;
+}
+
+header#pageHeader nav#breadcrumbList ul li a {
+  color: #696969;
+  padding-right: 18px;
+  background: url(../images/breadcrumbListPath.gif) no-repeat right;
+}
+
+header#pageHeader nav#breadcrumbList ul li a:hover {
+  color: #333333;
+  text-decoration: underline;
+}
+
+header#pageHeader nav#breadcrumbList ul li.selected {
+  color: #333333;
+  font-weight: bold;
+}
+
+header#pageHeader div#appTitle {
+  width: 100%;
+  float: left;
+  background-color: #FFFFFF;
+}
+
+header#pageHeader div#appTitle span {
+  display: block;
+  padding: 10px 0px 10px 30px;
+  font-size: 23px;
+}
+
+/* pageHeader end */
+
+/* pageFooter start */
+footer#pageFooter {
+  clear: both;
+  height: 25px;
+  width: 100%;
+  background-color: #36508D;
+  color: #FFFFFF;
+}
+footer#pageFooter div#copyright {
+  padding-top: 5px;
+  text-align: center;
+}
+/* pageFooter end */

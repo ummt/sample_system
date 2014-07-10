@@ -1,0 +1,25 @@
+/* ユーザ作成 */
+GRANT ALL PRIVILEGES ON sample.* to dbuser@'localhost' IDENTIFIED BY 'dbpass';
+
+/* sampleデータベースを作成する */
+CREATE DATABASE sample DEFAULT CHARACTER SET utf8;
+
+/* sampleデータベースを使用する */
+USE sample;
+
+/* userテーブルを作成する */
+CREATE TABLE user
+(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  login_id varchar(30) NOT NULL UNIQUE KEY,
+  login_password char(32) NOT NULL,
+  name varchar(30) NOT NULL,
+  is_deleted CHAR(1) NOT NULL DEFAULT '0',
+  update_date DATETIME NOT NULL
+);
+
+/* user情報作成 */
+INSERT INTO user
+(login_id, login_password, name, is_deleted, update_date)
+VALUES
+('user', '1a1dc91c907325c69271ddf0c944bc72', 'テストユーザー', '0', NOW());

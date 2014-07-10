@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+#controlList {
+  width: 100px;
+  margin: 0 auto;
+}
+
+header#pageHeader div#appTitle span {
+  display: block;
+  padding: 10px 0px 10px 30px;
+  font-size: 23px;
+}

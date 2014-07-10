@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+ul.appList01 {
+  width: 800px;
+  margin: 0 auto;
+}
+
+ul.appList01 li {
+  float: left;
+  margin-right: 25px;
+  margin-bottom: 10px;
+}
+
+ul.appList01 li a {
+  color: #333333;
+  font-size: 20px;
+  font-weight: bold;
+  display: table-cell;
+  width: 250px;
+  height: 80px;
+  text-decoration: none;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #F0F8FF;
+  border: solid 1px #191970;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+
+ul.appList01 li a:hover {
+  color: #FFFFFF;
+  background-color: #4169E1;
+  border: solid 1px #191970;
+}
+
+ul.appList01 li:nth-child(3n) {
+  margin-right: 0;
+	float: none;
+}

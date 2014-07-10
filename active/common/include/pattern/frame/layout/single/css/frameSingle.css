@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+section#mainSection {
+  clear: both;
+  width: 100%;
+  background-color: #FFFFFF;
+}
