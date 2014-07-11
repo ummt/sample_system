@@ -23,3 +23,44 @@ INSERT INTO user
 (login_id, login_password, name, is_deleted, update_date)
 VALUES
 ('user', '1a1dc91c907325c69271ddf0c944bc72', 'テストユーザー', '0', NOW());
+
+/* infoテーブルを作成する */
+CREATE TABLE info (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+subject VARCHAR(100) NOT NULL,
+post_date DATETIME NOT NULL,
+contents TEXT NOT NULL,
+update_date DATETIME NOT NULL
+);
+
+/* info情報作成 */
+INSERT INTO info
+(subject, post_date, contents, update_date)
+VALUES
+(
+'テストタイトル',
+'1900-01-01 00:00:00',
+'テストコンテンツ',
+NOW()
+);
+
+INSERT INTO info
+(subject, post_date, contents, update_date)
+VALUES
+(
+'管理サーバーにおける早朝のネットワーク強化メンテナンスのお知らせ',
+'2014-07-11 09:30:45',
+'<p>次のとおり、システムメンテナンスを実施します</p>
+<table>
+<tr><td style="width: 50px">日時</td><td>20XX年04月02日&nbsp;AM3:00～AM5:00</td></tr>
+<tr><td>内容</td><td>フロア間ルータの入替作業</td></tr>
+</table>
+<p>作業中もシステムを利用可能となっておりますが、通信速度が落ちることが予想されます。</p>
+<p>以上</p>',
+NOW()
+);
+
+SELECT 
+id, subject, post_date, contents, update_date
+FROM info
+ORDER BY post_date DESC, id DESC;

@@ -1,9 +1,12 @@
 <?php
 require_once dirname(__FILE__).'/init.php';
 require_once $pathFrameSingle.'/frameSingle.php';
+require_once 'database.php';
 
 class Page extends FrameSingle
 {
+  private $db;
+
   public function __construct($mainMenu)
   {
     parent::__construct($mainMenu);
@@ -11,6 +14,8 @@ class Page extends FrameSingle
     $this->addLinkCss('style.css');
     $this->addBreadcrumbList('active', 'トップ', $urlActive.'/index.php');
     $this->setAppTitle('トップ');
+    //DBクラスをオブジェクト化
+    $this->db = new Database();
   }
 
   protected function getPageName()
@@ -20,33 +25,46 @@ class Page extends FrameSingle
 
   protected function getHtmlContents()
   {
+    global $urlActive;
+
+    $infoSubject = '';  // タイトル
+    $infoContents = '';  // 主文
+
+    // infoのデータを取得
+    $this->db->getInfo($infos);
+
+    // 選択されているinfoのidを取得
+    $infoId = 0;
+    if(isset($_GET['infoid'])){
+      $infoId = $_GET['infoid'];
+    }
+
+    // 一覧作成
+    $infoList = '<ul>';
+    foreach ($infos as $info){
+      $post_date = date("Y.m.d", strtotime($info['post_date']));  //日付のフォーマット
+      $infoList .= '<li>';
+      if ((string)$infoId === (string)$info['id'] || $infoId === 0) {
+        // 選択
+        $infoSubject = $info['subject'];
+        $infoContents = $info['contents'];
+        $infoId = $info['id'];
+        $infoList .= '<span>'.$post_date.'&nbsp;'.$info['subject'].'</span>';
+      } else {
+        $infoList .= '<a href="'.$urlActive.'/index.php?infoid='.$info['id'].'">'.$post_date.'&nbsp;'.$info['subject'].'</a>';
+      }
+      $infoList .= '</li>';
+    }
+    $infoList .= '</ul>';
 ?>
 <div id="systemInfo" class="clearfix">
   <div id="infoList">
-    <ul>
-      <li><span>20XX.04.01&nbsp;定期メンテナンスのお知らせ</span></li>
-      <li><a href="#">20XX.04.01&nbsp;定期メンテナンスのお知らせ</a></li>
-      <li><a href="#">20XX.04.01&nbsp;定期メンテナンスのお知らせ</a></li>
-      <li><a href="#">20XX.04.01&nbsp;定期メンテナンスのお知らせ</a></li>
-      <li><a href="#">20XX.04.01&nbsp;定期メンテナンスのお知らせ</a></li>
-      <li><a href="#">20XX.04.01&nbsp;定期メンテナンスのお知らせ</a></li>
-      <li><a href="#">20XX.04.01&nbsp;定期メンテナンスのお知らせ</a></li>
-      <li><a href="#">20XX.04.01&nbsp;定期メンテナンスのお知らせ</a></li>
-      <li><a href="#">20XX.04.01&nbsp;定期メンテナンスのお知らせ</a></li>
-      <li><a href="#">20XX.04.01&nbsp;定期メンテナンスのお知らせ</a></li>
-      <li><a href="#">20XX.04.01&nbsp;定期メンテナンスのお知らせ</a></li>
-    </ul>
+<?php echo $infoList; ?>
   </div><!--infoList-->
   <div id="infoContents">
     <article>
-      <h2>管理サーバーにおける早朝のネットワーク強化メンテナンスのお知らせ</h2>
-      <p>次のとおり、システムメンテナンスを実施します</p>
-      <table>
-        <tr><td style="width: 50px">日時</td><td>20XX年04月02日&nbsp;AM3:00～AM5:00</td></tr>
-        <tr><td>内容</td><td>フロア間ルータの入替作業</td></tr>
-      </table>
-      <p>作業中もシステムを利用可能となっておりますが、通信速度が落ちることが予想されます。</p>
-      <p>以上</p>
+      <h2><?php echo $infoSubject; ?></h2>
+      <?php echo $infoContents; ?>
     </article>
   </div>
 </div>

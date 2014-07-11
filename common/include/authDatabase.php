@@ -15,7 +15,6 @@ class AuthDatabase extends DatabaseCommon {
     $sql .= ' WHERE is_deleted = :is_deleted ';
     $sql .= ' AND login_id = :login_id ';
     $sql .= ' AND login_password = :login_password ';
-    $sql .= ' ORDER BY id ';
 
     $stmt = $this->prepare($sql);
 
