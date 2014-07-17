@@ -30,6 +30,7 @@ class Page extends PageSearchCommon
 
   protected function getHtmlContents()
   {
+    // 都道府県セレクトボックス
     $this->db->getPrefectures($prefectures);
     $prefecureList  = '<select id="searchCustomerAddressPrefectures" name="searchCustomerAddressPrefectures">';
     $prefecureList .= '<option value="">選択してください</option>';

@@ -26,23 +26,23 @@ class Database extends DatabaseCommon
   }
 
   // 検索結果一覧を取得
-  public function getSearchList($criteria, &$rows) {
+  public function getSearchList($where, &$rows) {
     $rows = array();
 
     // 条件
-    $sqlCriteria = '';
-    foreach ($criteria as $key => $value) {
-      if ($sqlCriteria === ''){
-        $sqlCriteria .= ' WHERE ';
+    $sqlWhere = '';
+    foreach ($where as $key => $value) {
+      if ($sqlWhere === ''){
+        $sqlWhere .= ' WHERE ';
       }else{
-        $sqlCriteria .= ' AND ';
+        $sqlWhere .= ' AND ';
       }
       switch ($key) {
       case 'customer_id': // 顧客ID
-        $sqlCriteria .= ' c.id = :customer_id ';
+        $sqlWhere .= ' c.id = :customer_id ';
         break;
       case 'customer_name': // 顧客名
-        $sqlCriteria .= ' c.name LIKE :customer_name ';
+        $sqlWhere .= ' c.name LIKE :customer_name ';
         break;
       }
     }
@@ -56,13 +56,13 @@ class Database extends DatabaseCommon
     $sql .= ' tel ';
     $sql .= ' FROM customer AS c ';
     $sql .= ' LEFT JOIN prefecture AS p ON c.prefecture_id = p.id ';
-    $sql .= $sqlCriteria; //' WHERE
+    $sql .= $sqlWhere; //' WHERE
     $sql .= ' ORDER BY c.id ';
 
     $stmt = $this->prepare($sql);
 
     // バインド
-    foreach ($criteria as $key => $value) {
+    foreach ($where as $key => $value) {
       $stmt->bindValue(':'.$key, $value);
     }
 

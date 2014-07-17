@@ -7,6 +7,13 @@ table.table01 {
   font-size: 12px;
 }
 
+table.table01 tr.header {
+  display: table-row;
+}
+table.table01 tr.body {
+  display: none;
+}
+
 table.table01 th, table.table01 td {
   border: solid 1px #DCDCDC;
   height: 16px;
