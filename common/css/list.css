@@ -31,11 +31,11 @@ table.table01 td {
   padding: 0px 5px 0px 5px;
 }
 
-table.table01 tr:nth-child(odd) td {
+table.table01 tr:nth-child(even) td {
   background-color: #FFFFFF;
 }
 
-table.table01 tr:nth-child(even) td {
+table.table01 tr:nth-child(odd) td {
   background-color: #B0C4DE;
 }
 
@@ -71,24 +71,34 @@ table.pageNavi01 td {
   font-size: 15px;
 }
 
-table.pageNavi01 td a {
+table.pageNavi01 td.direct a {
   color: #0000FF;
   display: block;
   padding: 5px;
   text-decoration: none;
 }
 
-table.pageNavi01 td a:hover {
+table.pageNavi01 td.prev a:hover, table.pageNavi01 td.next a:hover, table.pageNavi01 td.direct a:hover {
   text-decoration: underline;
 }
 
-table.pageNavi01 td.selected {
+table.pageNavi01 td.selected a {
+  color: #333;
   font-weight: bold;
   padding: 5px;
+  text-decoration: none;
+}
+
+table.pageNavi01 td.selected a:hover {
+  text-decoration: none;
 }
 
 table.pageNavi01 td.prev a, table.pageNavi01 td.next a  {
   font-weight: bold;
+  color: #0000FF;
+  display: block;
+  padding: 5px;
+  text-decoration: none;
 }
 /* pageNavi01 end */
 

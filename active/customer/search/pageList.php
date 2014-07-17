@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/database.php';
 class Page extends PageSearchCommon
 {
   private $db;
+  private $pageMax;
 
   public function __construct($menuMain, $subMenu)
   {
@@ -64,9 +65,10 @@ class Page extends PageSearchCommon
     $dispRowsList .= '</select>';
 
     // 全ページ数
-    $pageMax = ceil($listCount / $dispRows);
+    $this->pageMax = ceil($listCount / $dispRows);
 
-    /*for($i = 0; $i < 10; $i++){
+    // 一覧の初期表示CSS
+    for($i = 2; $i <= $dispRows + 1; $i++){
       $showTrSelecters[] = 'table.table01 tr.body:nth-child('.$i.')';
     }
     $showTrSelecter = implode(',', $showTrSelecters);
@@ -76,11 +78,11 @@ class Page extends PageSearchCommon
   display: table-row;
 }
 </style>
-_EOD;*/
+_EOD;
 
     // 一覧
     $list = '';
-    //$list .= $listStyle;
+    $list .= $listStyle;
     $list .= '<table class="table01">';
     $list .= '<tr class="header">';
     $list .= '<th style="width: 05%;">NO.</th>';
@@ -105,27 +107,11 @@ _EOD;*/
 <div class="appControl01"><a href="index.php">条件入力へ戻る</a></div>
 <div class="listInfo01">
   該当件数：&nbsp;<?php echo $listCount; ?>件&nbsp;
-  全<?php echo $pageMax; ?>ページ&nbsp;
+  全<?php echo $this->pageMax; ?>ページ&nbsp;
   表示件数
   <?php echo $dispRowsList; ?>
 </div>
-<table class="pageNavi01">
-  <tr>
-    <td class="prev"><a href="#">&lt;&nbsp;前へ</a></td>
-    <td class="selected">1</td>
-    <td><a href="#">2</a></td>
-    <td><a href="#">3</a></td>
-    <td><a href="#">4</a></td>
-    <td><a href="#">5</a></td>
-    <td><a href="#">6</a></td>
-    <td><a href="#">7</a></td>
-    <td><a href="#">8</a></td>
-    <td><a href="#">9</a></td>
-    <td><a href="#">10</a></td>
-    <td class="next"><a href="#">次へ&nbsp;&gt;</a></td>
-  </tr>
-</table>
-
+<div id="pager_top"></div>
 <table class="criteria01">
   <tr>
     <td class="title">条件</td>
@@ -133,43 +119,65 @@ _EOD;*/
   </tr>
 </table>
 <?php echo $list; ?>
-<table class="pageNavi01">
-  <tr>
-    <td class="prev"><a href="#">&lt;&nbsp;前へ</a></td>
-    <td class="selected">1</td>
-    <td><a href="#">2</a></td>
-    <td><a href="#">3</a></td>
-    <td><a href="#">4</a></td>
-    <td><a href="#">5</a></td>
-    <td><a href="#">6</a></td>
-    <td><a href="#">7</a></td>
-    <td><a href="#">8</a></td>
-    <td><a href="#">9</a></td>
-    <td><a href="#">10</a></td>
-    <td class="next"><a href="#">次へ&nbsp;&gt;</a></td>
-  </tr>
-</table>
+<div id="pager_bottom"></div>
 <?php
   }
 
   protected function getJs()
   {
+    $directFunc = '';
+    for($i = 1; $i <= $this->pageMax; $i++){
+      $directFunc .= '$("table.pageNavi01 td.direct'.$i.' a").on("click", function(event){directPage('.$i.');return false;});';
+    }
 ?>
 <script>
-var pageFirstRecordNo = 2;
-var currentPage = 1;
+var pageMax = <?php echo $this->pageMax; ?>;  // 最大ページ数
+var pageFirstRecordNo = 2; // ページ先頭番号
+// ページャを設置
+function setPager(){
+  var pager = '';
+  pager  = '';
+  pager += '<table class="pageNavi01">';
+  pager += '<tr>';
+  pager += '<td class="prev"><a href="#">&lt;&nbsp;前へ</a></td>';
+  for(i = 1; i <= pageMax; i++){
+    pager += '<td class="';
+    if(i === 1){
+      pager += 'direct selected';
+    }else{
+      pager += 'direct';
+    }
+    pager += ' direct' + i + '"';
+    pager += '><a href="#">' + i + '</a></td>';
+  }
+  pager += '<td class="next"><a href="#">次へ&nbsp;&gt;</a></td>';
+  pager += '</tr>';
+  pager += '</table>';
+  $("#pager_top").html(pager);
+  $("#pager_bottom").html(pager);
+}
+setPager();
+// ページング
 function switchPage(arg){
   // 表示行数
   var dispRows = parseInt($("#dispRows").val());
   var newPageFirstRecordNo;
   switch(arg){
-  case '+1':
+  case '+1': // 次へ
     newPageFirstRecordNo = pageFirstRecordNo + dispRows;
     break;
-  case '-1':
+  case '-1': // 前へ
     newPageFirstRecordNo = pageFirstRecordNo - dispRows;
     break;
+  default: // ページ直接指定
+    newPageFirstRecordNo = (arg - 1) * dispRows + 2;
   }
+  // 現在ページを求める
+  var currentPage = Math.ceil(pageFirstRecordNo / dispRows);
+  // 遷移先ページを求める
+  var newPage = Math.ceil(newPageFirstRecordNo / dispRows);
+  // 選択不可ページ
+  if(newPage < 1 || pageMax < newPage) return;
   // 今のページの非表示
   var first = pageFirstRecordNo;
   var last = first + dispRows - 1;
@@ -183,12 +191,16 @@ function switchPage(arg){
   for (var i = first; i <= last; i++) {
     $("table.table01 tr.body:nth-child(" + i + ")").css("display", "table-row");
   }
+  // 選択ページCSS設定
+  $(".direct" + currentPage).removeClass('selected');
+  $(".direct" + newPage).addClass('selected');
   // ページ先頭番号の書き換え
   pageFirstRecordNo = newPageFirstRecordNo;
 }
+function directPage(page){
+  switchPage(page);
+}
 $(document).ready(function(){
-
-
   $("table.table01 td").click(function(e){
     if(!$(e.target).is('a')){
       window.open($(e.target).closest('tr').data('href'));
@@ -201,11 +213,11 @@ $(document).ready(function(){
     switchPage('-1');
     return false;
   });
-
   $("table.pageNavi01 td.next a").on('click',function(event){
     switchPage('+1');
     return false;
   });
+  <?php echo $directFunc; ?>
 });
 </script>
 <?php

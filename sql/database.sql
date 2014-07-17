@@ -60,11 +60,6 @@ VALUES
 NOW()
 );
 
-SELECT
-id, subject, post_date, contents, update_date
-FROM info
-ORDER BY post_date DESC, id DESC;
-
 /* 顧客マスタ作成 */
 CREATE TABLE customer (
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -154,16 +149,3 @@ VALUES
 (45, '宮崎'),
 (46, '鹿児島'),
 (47, '沖縄');
-
-/* 顧客マスタ抽出（顧客名あいまい） */
-SELECT
-c.id AS customer_id,
-c.name AS customer_name,
-p.name AS prefecture_name,
-address1,
-address2,
-tel
-FROM customer AS c
-LEFT JOIN prefecture AS p ON c.prefecture_id = p.id
-WHERE c.name LIKE '%長崎%'
-ORDER BY c.id;
