@@ -1,9 +1,12 @@
 <?php
 require_once dirname(__FILE__).'/init.php';
 require_once $pathSearchInclude.'/pageSearchCommon.php';
+require_once dirname(__FILE__).'/database.php';
 
 class Page extends PageSearchCommon
 {
+  private $db;
+
   public function __construct($menuMain, $subMenu)
   {
     parent::__construct($menuMain, $subMenu);
@@ -16,6 +19,8 @@ class Page extends PageSearchCommon
     $this->addBreadcrumbList('customerSearch' ,'顧客検索', $urlCustomerSearch.'/index.php');
 
     $this->setAppTitle('顧客検索：一覧');
+
+    $this->db = new Database();
   }
 
   protected function getPageName()
@@ -25,6 +30,42 @@ class Page extends PageSearchCommon
 
   protected function getHtmlContents()
   {
+    // 検索条件
+    $criteria = array();
+    foreach ($_POST as $key => $value) {
+      if(trim($value) === '') continue; // 未入力ならば次へ
+      switch ($key) {
+      case 'searchCustomerId':  // 顧客ID
+        $criteria['customer_id'] = $value;
+        break;
+      case 'searchCustomerName':  // 顧客名
+        $criteria['customer_name'] = '%'.$value.'%';
+        break;
+      }
+    }
+    // 検索結果取得
+    $this->db->getSearchList($criteria, $rows);
+    $list = '';
+    $list .= '<table class="table01">';
+    $list .= '<tr>';
+    $list .= '<th style="width: 05%;">NO.</th>';
+    $list .= '<th style="width: 10%;">ID</th>';
+    $list .= '<th style="width: 12%;">氏名</th>';
+    $list .= '<th style="width: 58%;">住所</th>';
+    $list .= '<th style="width: 15%;">電話番号</th>';
+    $list .= '</tr>';
+    foreach ($rows as $row) {
+      global $urlCustomerInfo;
+      $dataHref = 'data-href="'.$urlCustomerInfo.'/index.php?id='.$row['customer_id'].'"';
+      $list .= '<tr '.$dataHref.'>';
+      $list .= '<td style="text-align: right;">'.'番号'.'</td>';
+      $list .= '<td style="text-align: left;">'.$row['customer_id'].'</td>';
+      $list .= '<td style="text-align: left;">'.$row['customer_name'].'</td>';
+      $list .= '<td style="text-align: left;">'.$row['prefecture_name'].$row['address1'].$row['address2'].'</td>';
+      $list .= '<td style="text-align: left;">'.$row['tel'].'</td>';
+      $list .= '</tr>';
+    }
+    $list .= '</table>';
 ?>
 <div class="appControl01"><a href="index.php">条件入力へ戻る</a></div>
 <div class="listInfo01">
@@ -61,32 +102,7 @@ class Page extends PageSearchCommon
     <td class="criteriaList">名前：田中、住所：長崎県</td>
   </tr>
 </table>
-
-<table class="table01">
-  <tr>
-    <th style="width: 05%;">NO.</th>
-    <th style="width: 10%;">ID</th>
-    <th style="width: 12%;">氏名</th>
-    <th style="width: 58%;">住所</th>
-    <th style="width: 15%;">電話番号</th>
-  </tr>
-<?php
-    for($i = 0; $i < 20; $i++)
-    {
-      global $urlCustomerInfo;
-      $dataHref = "data-href=\"{$urlCustomerInfo}/index.php?id=AD001\"";
-?>
-  <tr <?php echo $dataHref; ?>>
-    <td style="text-align: right;">1</td>
-    <td style="text-align: left;">AD0001</td>
-    <td style="text-align: left;">田中太郎</td>
-    <td style="text-align: left;">長崎県長崎市元船町２－１</td>
-    <td style="text-align: left;">095-823-1199</td>
-  </tr>
-<?php
-    }
-?>
-</table>
+<?php echo $list; ?>
 <table class="pageNavi01">
   <tr>
     <td class="prev"><a href="#">&lt;&nbsp;前へ</a></td>

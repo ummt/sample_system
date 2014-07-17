@@ -1,9 +1,11 @@
 <?php
 require_once dirname(__FILE__).'/init.php';
 require_once $pathSearchInclude.'/pageSearchCommon.php';
+require_once dirname(__FILE__).'/database.php';
 
 class Page extends PageSearchCommon
 {
+  private $db;
   public function __construct($menuMain, $subMenu)
   {
     parent::__construct($menuMain, $subMenu);
@@ -17,6 +19,8 @@ class Page extends PageSearchCommon
     $this->addBreadcrumbList('customerSearch' ,'顧客検索', $urlCustomerSearch.'/index.php');
 
     $this->setAppTitle('顧客検索：条件入力');
+
+    $this->db = new Database();
   }
 
   protected function getPageName()
@@ -26,6 +30,13 @@ class Page extends PageSearchCommon
 
   protected function getHtmlContents()
   {
+    $this->db->getPrefectures($prefectures);
+    $prefecureList  = '<select id="searchCustomerAddressPrefectures" name="searchCustomerAddressPrefectures">';
+    $prefecureList .= '<option value="">選択してください</option>';
+    foreach ($prefectures as $prefecture) {
+      $prefecureList .= '<option value="'.$prefecture['id'].'">'.$prefecture['name'].'</option>';
+    }
+    $prefecureList .= '</select>';
 ?>
 <form id="main" method="post" action="list.php" class="form01">
   <fieldset>
@@ -57,9 +68,7 @@ class Page extends PageSearchCommon
         </li>
         <li>
           <label for="searchCustomerAddressPrefectures"><span class="title">都道府県</span></label>
-          <select id="searchCustomerAddressPrefectures" name="searchCustomerAddressPrefectures">
-            <option value="">選択してください</option>
-          </select>
+          <?php echo $prefecureList; ?>
         </li>
         <li><label for="searchCustomerAddress01"><span class="title">市区町村</span></label><input type="text" id="searchCustomerAddress01" name="searchCustomerAddress01"></li>
         <li><label for="searchCustomerAddress02"><span class="title">番地・建物名</span></label><input type="text" id="searchCustomerAddress02" name="searchCustomerAddress02"></li>

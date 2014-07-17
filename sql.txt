@@ -60,7 +60,110 @@ VALUES
 NOW()
 );
 
-SELECT 
+SELECT
 id, subject, post_date, contents, update_date
 FROM info
 ORDER BY post_date DESC, id DESC;
+
+/* 顧客マスタ作成 */
+CREATE TABLE customer (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+name_kana VARCHAR(50) NOT NULL,
+gender CHAR(1) NOT NULL,
+birth_date DATETIME NOT NULL,
+zip_code CHAR(7) NOT NULL,
+prefecture_id INT NOT NULL,
+address1 VARCHAR(100) NOT NULL,
+address2 VARCHAR(100) NOT NULL,
+tel VARCHAR(15) NOT NULL,
+mail VARCHAR(50) NOT NULL,
+is_deleted CHAR(1) NOT NULL
+);
+
+INSERT INTO customer
+(name, name_kana, gender, birth_date, zip_code, prefecture_id, address1, address2, tel, mail, is_deleted)
+VALUES
+(
+'長崎太郎',
+'タナカタロウ',
+'1',
+'1982-05-03',
+'8508570',
+42,
+'長崎市江戸町',
+'２‐１３',
+'095-824-1111',
+'toiawase@sample-nagasaki.com',
+'0'
+);
+
+/* 都道府県マスタ作成 */
+CREATE TABLE prefecture (
+id INT NOT NULL PRIMARY KEY,
+name VARCHAR(6) NOT NULL
+);
+
+INSERT INTO prefecture
+(id, name)
+VALUES
+(1, '北海道'),
+(2, '青森'),
+(3, '岩手'),
+(4, '宮城'),
+(5, '秋田'),
+(6, '山形'),
+(7, '福島'),
+(8, '茨城'),
+(9, '栃木'),
+(10, '群馬'),
+(11, '埼玉'),
+(12, '千葉'),
+(13, '東京'),
+(14, '神奈川'),
+(15, '新潟'),
+(16, '富山'),
+(17, '石川'),
+(18, '福井'),
+(19, '山梨'),
+(20, '長野'),
+(21, '岐阜'),
+(22, '静岡'),
+(23, '愛知'),
+(24, '三重'),
+(25, '滋賀'),
+(26, '京都'),
+(27, '大阪'),
+(28, '兵庫'),
+(29, '奈良'),
+(30, '和歌山'),
+(31, '鳥取'),
+(32, '島根'),
+(33, '岡山'),
+(34, '広島'),
+(35, '山口'),
+(36, '徳島'),
+(37, '香川'),
+(38, '愛媛'),
+(39, '高知'),
+(40, '福岡'),
+(41, '佐賀'),
+(42, '長崎'),
+(43, '熊本'),
+(44, '大分'),
+(45, '宮崎'),
+(46, '鹿児島'),
+(47, '沖縄');
+
+/* 顧客マスタ抽出（顧客名あいまい） */
+SELECT
+c.id AS customer_id,
+c.name AS customer_name,
+p.name AS prefecture_name,
+address1,
+address2,
+tel
+FROM customer AS c
+LEFT JOIN prefecture AS p ON c.prefecture_id = p.id
+WHERE c.name LIKE '%長崎%'
+ORDER BY c.id;
