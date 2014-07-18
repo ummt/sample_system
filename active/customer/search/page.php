@@ -9,9 +9,9 @@ class Page extends PageSearchCommon
   public function __construct($menuMain, $subMenu)
   {
     parent::__construct($menuMain, $subMenu);
-    global $urlCommonCss, $urlActive, $urlCustomer, $urlCustomerSearch;
+    global $urlActiveCommonCss, $urlActive, $urlCustomer, $urlCustomerSearch;
 
-    $this->addLinkCss($urlCommonCss.'/form.css');
+    $this->addLinkCss($urlActiveCommonCss.'/form.css');
     $this->addLinkCss('style.css');
 
     $this->addBreadcrumbList('active', 'トップ', $urlActive.'/index.php');

@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+/* pageHeader start */
+header#pageHeader {
+  height: 44px;
+}
+/* pageHeader end */
+
+section#mainSection {
+  background-color: #FFFFFF;
+  padding-bottom: 10px;
+}
